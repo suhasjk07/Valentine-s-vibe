@@ -1,0 +1,921 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Valentine's Surprise ❤️</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Cormorant+Garamond:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --rose: #d4526e;
+            --deep-rose: #a23756;
+            --blush: #f7c6d3;
+            --cream: #fff5f7;
+            --burgundy: #5d001e;
+            --gold: #d4af37;
+            --shadow: rgba(210, 82, 110, 0.3);
+            --whatsapp: #25D366;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Cormorant Garamond', serif;
+            background: linear-gradient(135deg, #1a0208 0%, #2d1115 25%, #1f0a0e 50%, #2d1115 75%, #1a0208 100%);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        /* Floating hearts background */
+        .hearts-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+            opacity: 0;
+            transition: opacity 1s ease;
+        }
+
+        .hearts-container.active {
+            opacity: 1;
+        }
+
+        .heart-bg {
+            position: absolute;
+            font-size: 20px;
+            color: var(--rose);
+            opacity: 0.15;
+            animation: floatHeart 8s infinite;
+        }
+
+        @keyframes floatHeart {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.15;
+            }
+            90% {
+                opacity: 0.15;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Main container */
+        .container {
+            position: relative;
+            z-index: 10;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+        }
+
+        /* Welcome screen */
+        .welcome-screen {
+            text-align: center;
+            max-width: 600px;
+            padding: 60px 40px;
+            background: rgba(255, 245, 247, 0.05);
+            border-radius: 30px;
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 20px 60px var(--shadow);
+            animation: fadeInScale 1s ease-out;
+        }
+
+        @keyframes fadeInScale {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .welcome-screen h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            font-weight: 900;
+            color: var(--blush);
+            margin-bottom: 20px;
+            text-shadow: 0 0 30px var(--shadow);
+            animation: shimmer 3s ease-in-out infinite;
+        }
+
+        @keyframes shimmer {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
+        }
+
+        .welcome-screen p {
+            font-size: 1.4rem;
+            color: var(--cream);
+            margin-bottom: 30px;
+            font-weight: 300;
+            line-height: 1.8;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-group label {
+            display: block;
+            font-size: 1.1rem;
+            color: var(--blush);
+            margin-bottom: 8px;
+            text-align: left;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 18px 25px;
+            font-size: 1.3rem;
+            font-family: 'Cormorant Garamond', serif;
+            border: 2px solid var(--rose);
+            border-radius: 50px;
+            background: rgba(255, 255, 255, 0.95);
+            color: var(--burgundy);
+            text-align: center;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .input-group input::placeholder {
+            color: rgba(93, 0, 30, 0.5);
+        }
+
+        .input-group input:focus {
+            transform: scale(1.02);
+            border-color: var(--gold);
+            box-shadow: 0 0 20px var(--shadow);
+        }
+
+        .input-group small {
+            display: block;
+            margin-top: 8px;
+            color: var(--cream);
+            font-size: 0.9rem;
+            opacity: 0.7;
+        }
+
+        .btn {
+            padding: 18px 50px;
+            font-size: 1.3rem;
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--rose) 0%, var(--deep-rose) 100%);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            box-shadow: 0 10px 30px var(--shadow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .btn:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px var(--shadow);
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .btn span {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Main experience screen */
+        .experience-screen {
+            display: none;
+            text-align: center;
+            max-width: 900px;
+            width: 100%;
+        }
+
+        .experience-screen.active {
+            display: block;
+            animation: fadeIn 1s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .main-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 4rem;
+            font-weight: 900;
+            color: var(--gold);
+            margin-bottom: 30px;
+            text-shadow: 0 0 40px rgba(212, 175, 55, 0.5);
+            animation: titleReveal 1.5s ease-out;
+        }
+
+        @keyframes titleReveal {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .love-letter {
+            background: rgba(255, 245, 247, 0.1);
+            border-radius: 20px;
+            padding: 50px 40px;
+            margin: 40px 0;
+            border: 2px solid rgba(212, 175, 55, 0.3);
+            backdrop-filter: blur(20px);
+            box-shadow: 0 20px 60px var(--shadow);
+            animation: letterSlide 1s ease-out 0.5s both;
+        }
+
+        @keyframes letterSlide {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .love-letter p {
+            font-size: 1.5rem;
+            line-height: 2;
+            color: var(--cream);
+            margin-bottom: 25px;
+            font-weight: 300;
+        }
+
+        .love-letter .signature {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            font-style: italic;
+            color: var(--gold);
+            margin-top: 30px;
+        }
+
+        /* Interactive cards */
+        .cards-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin: 50px 0;
+            animation: cardsReveal 1s ease-out 1s both;
+        }
+
+        @keyframes cardsReveal {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .card {
+            background: linear-gradient(135deg, rgba(212, 82, 110, 0.2) 0%, rgba(162, 55, 86, 0.2) 100%);
+            border-radius: 20px;
+            padding: 40px 30px;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+            transform: scale(0);
+            transition: transform 0.6s ease;
+        }
+
+        .card:hover::before {
+            transform: scale(1);
+        }
+
+        .card:hover {
+            transform: translateY(-10px) scale(1.05);
+            box-shadow: 0 20px 40px var(--shadow);
+            border-color: var(--gold);
+        }
+
+        .card-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+
+        .card h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            color: var(--blush);
+            margin-bottom: 15px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .card p {
+            color: var(--cream);
+            font-size: 1.1rem;
+            line-height: 1.6;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* WhatsApp section */
+        .whatsapp-section {
+            margin-top: 50px;
+            padding: 40px;
+            background: rgba(37, 211, 102, 0.1);
+            border-radius: 20px;
+            border: 2px solid rgba(37, 211, 102, 0.3);
+            animation: surpriseReveal 1s ease-out 1.5s both;
+        }
+
+        .whatsapp-section h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            color: var(--blush);
+            margin-bottom: 20px;
+        }
+
+        .whatsapp-section p {
+            color: var(--cream);
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+        }
+
+        .whatsapp-btn {
+            background: linear-gradient(135deg, var(--whatsapp) 0%, #1ea952 100%);
+            color: white;
+            font-size: 1.4rem;
+            padding: 20px 50px;
+            margin: 10px;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .whatsapp-btn:hover {
+            background: linear-gradient(135deg, #1ea952 0%, var(--whatsapp) 100%);
+        }
+
+        /* Surprise button */
+        .surprise-section {
+            margin-top: 60px;
+            animation: surpriseReveal 1s ease-out 1.5s both;
+        }
+
+        @keyframes surpriseReveal {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .surprise-btn {
+            background: linear-gradient(135deg, var(--gold) 0%, #b8941f 100%);
+            color: var(--burgundy);
+            font-size: 1.5rem;
+            padding: 25px 60px;
+            margin-top: 20px;
+        }
+
+        /* Modal for surprise */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            animation: modalFade 0.5s ease-out;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        @keyframes modalFade {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, var(--burgundy) 0%, var(--deep-rose) 100%);
+            padding: 60px 50px;
+            border-radius: 30px;
+            max-width: 600px;
+            text-align: center;
+            animation: modalSlide 0.6s ease-out;
+            border: 3px solid var(--gold);
+            box-shadow: 0 0 100px var(--gold);
+            position: relative;
+        }
+
+        @keyframes modalSlide {
+            from {
+                opacity: 0;
+                transform: scale(0.5) rotate(-5deg);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) rotate(0deg);
+            }
+        }
+
+        .modal-content h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            color: var(--gold);
+            margin-bottom: 30px;
+            text-shadow: 0 0 20px rgba(212, 175, 55, 0.5);
+        }
+
+        .modal-content p {
+            font-size: 1.5rem;
+            color: var(--cream);
+            line-height: 2;
+            margin-bottom: 20px;
+        }
+
+        .heart-explosion {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+        }
+
+        .heart-particle {
+            position: absolute;
+            font-size: 30px;
+            animation: explode 2s ease-out forwards;
+        }
+
+        @keyframes explode {
+            0% {
+                opacity: 1;
+                transform: translate(0, 0) scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: translate(var(--tx), var(--ty)) scale(0.5);
+            }
+        }
+
+        .close-modal {
+            margin-top: 30px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 2px solid white;
+            padding: 15px 40px;
+            font-size: 1.2rem;
+        }
+
+        /* Status messages */
+        .status-message {
+            margin-top: 20px;
+            padding: 15px 25px;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .status-success {
+            background: rgba(37, 211, 102, 0.2);
+            border: 1px solid var(--whatsapp);
+            color: #a8f5cd;
+        }
+
+        .status-error {
+            background: rgba(255, 82, 82, 0.2);
+            border: 1px solid #ff5252;
+            color: #ffb3b3;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .welcome-screen h1 {
+                font-size: 2.5rem;
+            }
+
+            .main-title {
+                font-size: 2.5rem;
+            }
+
+            .love-letter p {
+                font-size: 1.2rem;
+            }
+
+            .cards-container {
+                grid-template-columns: 1fr;
+            }
+
+            .modal-content {
+                margin: 20px;
+                padding: 40px 30px;
+            }
+
+            .whatsapp-btn {
+                font-size: 1.2rem;
+                padding: 15px 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating hearts background -->
+    <div class="hearts-container" id="heartsContainer"></div>
+
+    <div class="container">
+        <!-- Welcome Screen -->
+        <div class="welcome-screen" id="welcomeScreen">
+            <h1>💕 A Valentine's Surprise 💕</h1>
+            <p>This is a special message for someone extraordinary. Enter their details to create a personalized love experience...</p>
+            
+            <div class="input-group">
+                <label>Your Love's Name *</label>
+                <input type="text" id="nameInput" placeholder="Enter their name..." />
+            </div>
+
+            <div class="input-group">
+                <label>Your Name (Optional)</label>
+                <input type="text" id="senderNameInput" placeholder="Your name..." />
+                <small>This will appear in the signature</small>
+            </div>
+
+            <div class="input-group">
+                <label>WhatsApp Number (Optional)</label>
+                <input type="tel" id="phoneInput" placeholder="+1234567890" />
+                <small>Include country code for WhatsApp sharing</small>
+            </div>
+
+            <button class="btn" onclick="startExperience()">
+                <span>Begin the Experience ✨</span>
+            </button>
+
+            <div id="welcomeStatus"></div>
+        </div>
+
+        <!-- Main Experience Screen -->
+        <div class="experience-screen" id="experienceScreen">
+            <h1 class="main-title">Dear <span id="nameDisplay"></span>,</h1>
+            
+            <div class="love-letter">
+                <p>In a world full of ordinary moments, you are my extraordinary. Every day with you feels like a celebration of what love truly means.</p>
+                <p>You light up my life in ways words can barely capture. Your smile, your laughter, the way you see the world—everything about you makes my heart skip a beat.</p>
+                <p>This Valentine's Day, I want you to know that you are cherished, adored, and loved beyond measure. You are my forever Valentine.</p>
+                <div class="signature">Forever Yours, <span id="senderDisplay">Your Secret Admirer</span> ❤️</div>
+            </div>
+
+            <div class="cards-container">
+                <div class="card">
+                    <div class="card-icon">🌹</div>
+                    <h3>You're Beautiful</h3>
+                    <p>Inside and out, your beauty radiates and touches everyone around you</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">✨</div>
+                    <h3>You're Special</h3>
+                    <p>There's no one else like you, and that's what makes you absolutely perfect</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">💝</div>
+                    <h3>You're Loved</h3>
+                    <p>More than yesterday, less than tomorrow, and infinitely every single day</p>
+                </div>
+            </div>
+
+            <!-- WhatsApp Section -->
+            <div class="whatsapp-section">
+                <h2>📱 Share Your Love via WhatsApp</h2>
+                <p>Send romantic messages and quotes directly to their WhatsApp!</p>
+                <button class="btn whatsapp-btn" onclick="sendRandomQuote()">
+                    <span>💬 Send Random Love Quote</span>
+                </button>
+                <button class="btn whatsapp-btn" onclick="sendPersonalizedMessage()">
+                    <span>💕 Send Personalized Message</span>
+                </button>
+                <button class="btn whatsapp-btn" onclick="sendWebsiteLink()">
+                    <span>🔗 Share This Experience</span>
+                </button>
+            </div>
+
+            <div class="surprise-section">
+                <h2 style="font-family: 'Playfair Display', serif; font-size: 2rem; color: var(--blush); margin-bottom: 20px;">One more thing...</h2>
+                <button class="btn surprise-btn" onclick="showSurprise()">
+                    <span>Click for a Special Surprise 🎁</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Surprise Modal -->
+    <div class="modal" id="surpriseModal">
+        <div class="modal-content">
+            <div class="heart-explosion" id="heartExplosion"></div>
+            <h2>💖 I Love You! 💖</h2>
+            <p id="finalMessage"></p>
+            <p style="font-size: 4rem; margin: 30px 0;">❤️‍🔥</p>
+            <p>Happy Valentine's Day!</p>
+            <button class="btn close-modal" onclick="closeModal()">
+                <span>Close</span>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // ========== CONFIGURATION ==========
+        // Replace this with your Google Apps Script Web App URL
+        const GOOGLE_SCRIPT_URL = 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE';
+        
+        // ========== GLOBAL VARIABLES ==========
+        let userData = {
+            recipientName: '',
+            senderName: '',
+            phoneNumber: '',
+            timestamp: ''
+        };
+
+        // Collection of romantic quotes
+        const loveQuotes = [
+            "In all the world, there is no heart for me like yours. In all the world, there is no love for you like mine. 💕",
+            "You are my today and all of my tomorrows. Every moment with you is a treasure. ✨",
+            "I love you not only for what you are, but for what I am when I am with you. 🌹",
+            "You are the finest, loveliest, tenderest person I have ever known. 💝",
+            "My heart is perfect because you are inside it. Forever and always. ❤️",
+            "Being deeply loved by someone gives you strength, while loving someone deeply gives you courage. 💪💕",
+            "You are my sun, my moon, and all my stars. You light up my entire universe. 🌟",
+            "The best thing to hold onto in life is each other. I'm so grateful I have you. 🤗",
+            "Love is not about how many days, months, or years you have been together. It's about how much you love each other every single day. 💖",
+            "I would rather spend one lifetime with you, than face all the ages of this world alone. 🌍💕",
+            "You are my favorite notification, my favorite thought, my favorite everything. 📱💝",
+            "When I tell you I love you, I don't say it out of habit. I say it to remind you that you're my life. 💗",
+            "You're the reason I believe in love. You make my heart smile every single day. 😊❤️",
+            "Every love story is beautiful, but ours is my favorite. Forever grateful for you. 📖💕",
+            "I fell in love with you because of a million tiny things you never knew you were doing. ✨💖"
+        ];
+
+        const personalizedMessages = [
+            "Hey {name}! Just wanted to remind you how incredibly special you are to me. You make every day brighter! 🌟💕",
+            "{name}, my love for you grows stronger with each passing moment. You are my everything! ❤️",
+            "To my dearest {name}, you are the reason I wake up with a smile. Thank you for being you! 😊💖",
+            "{name}, in this crazy world, you are my peace, my joy, my home. I love you endlessly! 🏡💝",
+            "Dear {name}, you are not just my love, you are my best friend, my soulmate, my everything! 💕✨",
+            "{name}, every moment without you feels incomplete. You complete me in every way! 💗",
+            "Hey {name}! Just thinking about you and wanted to say - you're absolutely amazing and I'm so lucky! 🍀💖",
+            "{name}, you make my heart skip a beat every time I think of you. Love you infinitely! 💓"
+        ];
+
+        // ========== INITIALIZATION ==========
+        // Generate floating hearts
+        function createFloatingHearts() {
+            const container = document.getElementById('heartsContainer');
+            for (let i = 0; i < 15; i++) {
+                const heart = document.createElement('div');
+                heart.className = 'heart-bg';
+                heart.textContent = '❤️';
+                heart.style.left = Math.random() * 100 + '%';
+                heart.style.animationDelay = Math.random() * 8 + 's';
+                heart.style.animationDuration = (8 + Math.random() * 4) + 's';
+                container.appendChild(heart);
+            }
+        }
+
+        // ========== USER INPUT & EXPERIENCE ==========
+        // Start the experience
+        function startExperience() {
+            const nameInput = document.getElementById('nameInput');
+            const senderNameInput = document.getElementById('senderNameInput');
+            const phoneInput = document.getElementById('phoneInput');
+            const statusDiv = document.getElementById('welcomeStatus');
+            
+            const name = nameInput.value.trim();
+            const senderName = senderNameInput.value.trim();
+            const phone = phoneInput.value.trim();
+            
+            if (name === '') {
+                nameInput.style.borderColor = 'red';
+                statusDiv.innerHTML = '<div class="status-message status-error">Please enter your loved one\'s name! 💕</div>';
+                return;
+            }
+
+            // Store user data
+            userData = {
+                recipientName: name,
+                senderName: senderName || 'Your Secret Admirer',
+                phoneNumber: phone,
+                timestamp: new Date().toISOString()
+            };
+
+            // Save to Google Drive
+            saveToGoogleDrive(userData);
+
+            // Update display
+            document.getElementById('nameDisplay').textContent = name;
+            document.getElementById('senderDisplay').textContent = userData.senderName;
+            
+            // Show experience
+            document.getElementById('welcomeScreen').style.display = 'none';
+            document.getElementById('experienceScreen').classList.add('active');
+            document.getElementById('heartsContainer').classList.add('active');
+        }
+
+        // ========== GOOGLE DRIVE INTEGRATION ==========
+        async function saveToGoogleDrive(data) {
+            if (GOOGLE_SCRIPT_URL === 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE') {
+                console.log('Google Drive not configured. Data:', data);
+                return;
+            }
+
+            try {
+                const response = await fetch(GOOGLE_SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data)
+                });
+                
+                console.log('Data saved to Google Drive successfully!');
+            } catch (error) {
+                console.error('Error saving to Google Drive:', error);
+            }
+        }
+
+        // ========== WHATSAPP SHARING ==========
+        function sendRandomQuote() {
+            const randomQuote = loveQuotes[Math.floor(Math.random() * loveQuotes.length)];
+            openWhatsApp(randomQuote);
+        }
+
+        function sendPersonalizedMessage() {
+            const randomMsg = personalizedMessages[Math.floor(Math.random() * personalizedMessages.length)];
+            const personalizedMsg = randomMsg.replace('{name}', userData.recipientName);
+            openWhatsApp(personalizedMsg);
+        }
+
+        function sendWebsiteLink() {
+            const message = `💕 Hey ${userData.recipientName}! I created something special just for you. Check out this Valentine's surprise! ❤️\n\nFrom: ${userData.senderName}`;
+            openWhatsApp(message);
+        }
+
+        function openWhatsApp(message) {
+            const encodedMessage = encodeURIComponent(message);
+            let whatsappURL;
+
+            if (userData.phoneNumber) {
+                // Send to specific number
+                const cleanPhone = userData.phoneNumber.replace(/\D/g, '');
+                whatsappURL = `https://wa.me/${cleanPhone}?text=${encodedMessage}`;
+            } else {
+                // Open WhatsApp with pre-filled message
+                whatsappURL = `https://wa.me/?text=${encodedMessage}`;
+            }
+
+            window.open(whatsappURL, '_blank');
+        }
+
+        // ========== SURPRISE MODAL ==========
+        function showSurprise() {
+            const name = userData.recipientName;
+            const messages = [
+                `${name}, you make every moment magical! 🌟`,
+                `${name}, you are the best thing that ever happened to me! 💫`,
+                `${name}, my heart belongs to you, today and always! 💕`,
+                `${name}, you're my favorite person in the whole world! 🌍`,
+                `${name}, I fall in love with you more every single day! 💗`
+            ];
+            
+            const randomMessage = messages[Math.floor(Math.random() * messages.length)];
+            document.getElementById('finalMessage').textContent = randomMessage;
+            document.getElementById('surpriseModal').classList.add('active');
+            
+            createHeartExplosion();
+        }
+
+        function closeModal() {
+            document.getElementById('surpriseModal').classList.remove('active');
+        }
+
+        function createHeartExplosion() {
+            const container = document.getElementById('heartExplosion');
+            container.innerHTML = '';
+            
+            const hearts = ['❤️', '💕', '💖', '💗', '💝', '💘'];
+            
+            for (let i = 0; i < 20; i++) {
+                const heart = document.createElement('div');
+                heart.className = 'heart-particle';
+                heart.textContent = hearts[Math.floor(Math.random() * hearts.length)];
+                
+                const angle = (Math.PI * 2 * i) / 20;
+                const distance = 150 + Math.random() * 100;
+                const tx = Math.cos(angle) * distance;
+                const ty = Math.sin(angle) * distance;
+                
+                heart.style.setProperty('--tx', tx + 'px');
+                heart.style.setProperty('--ty', ty + 'px');
+                heart.style.animationDelay = Math.random() * 0.2 + 's';
+                
+                container.appendChild(heart);
+            }
+        }
+
+        // ========== EVENT LISTENERS ==========
+        document.addEventListener('DOMContentLoaded', function() {
+            createFloatingHearts();
+            
+            // Handle enter key on inputs
+            const inputs = ['nameInput', 'senderNameInput', 'phoneInput'];
+            inputs.forEach(inputId => {
+                document.getElementById(inputId).addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        startExperience();
+                    }
+                });
+            });
+        });
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeModal();
+            }
+        });
+    </script>
+</body>
+</html>
